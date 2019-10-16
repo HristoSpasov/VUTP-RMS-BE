@@ -13,9 +13,8 @@
             modelBuilder.Entity<RoomEvent>()
                 .HasKey(x => new { x.EventId, x.RoomId});
 
-            modelBuilder.Entity<Specialty>()
-                .HasMany<Discipline>(e => e.Disciplines)
-                .WithOne(e => e.)
+            modelBuilder.Entity<SpecialtyDiscipline>()
+                .HasKey(x => new { x.SpecialtyId, x.DisciplineId });
 
         }
     }

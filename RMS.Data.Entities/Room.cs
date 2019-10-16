@@ -4,7 +4,6 @@
     {
         public Room()
         {
-            
         }
 
         public string Number { get; set; }

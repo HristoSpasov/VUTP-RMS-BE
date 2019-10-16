@@ -38,8 +38,6 @@
             this.logger = logger;
         }
 
-        public DbSet<AcademicTitle> AcademicTitles { get; set; }
-
         public DbSet<Discipline> Disciplines { get; set; }
 
         public DbSet<Event> Events { get; set; }
