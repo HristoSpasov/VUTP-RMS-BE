@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RMS.API</name>
+    </assembly>
+    <members>
+        <member name="M:RMS.API.Controllers.WeatherForecastController.Get">
+            <summary>
+            Get all.
+            </summary>
+            <returns>Get all and so.</returns>
+        </member>
+        <member name="M:RMS.API.Infrastructure.Extensions.RegisterSwaggerExtensions.RegisterSwaggerDocumentation(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Configure swagger documentation. Add Azure Oauth2 authentication and API versioning.
+            </summary>
+            <param name="services">Service collection.</param>
+            <param name="configuration">Configuration.</param>
+        </member>
+        <member name="M:RMS.API.Infrastructure.Filters.ModelStateValidationActionFilterAttribute.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            This method is invoked before an action method in the controller is invoked.
+            </summary>
+            <param name="actionContext">context for action filters</param>
+        </member>
+        <member name="M:RMS.API.Program.Main(System.String[])">
+            <summary>
+            The main method of the application
+            </summary>
+            <param name="args">Command line arguments</param>
+        </member>
+        <member name="M:RMS.API.Program.CreateWebHostBuilder(System.String[])">
+            <summary>
+            Method for creating IWebHostBuilder
+            </summary>
+            <param name="args">Command line arguments</param>
+            <returns>A builder for IWebHost</returns>
+        </member>
+        <member name="T:RMS.API.Startup">
+            <summary>
+            .NET core startup class
+            </summary>
+        </member>
+        <member name="M:RMS.API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.Extensions.Hosting.IHostingEnvironment)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RMS.API.Startup"/> class.
+            </summary>
+            <param name="configuration">Server configuration properties</param>
+            <param name="hostingEnvironment">Hosting environment information</param>
+        </member>
+        <member name="P:RMS.API.Startup.Configuration">
+            <summary>
+            Gets application configuration properties.
+            </summary>
+        </member>
+        <member name="P:RMS.API.Startup.HostingEnvironment">
+            <summary>
+            Gets hosting environment
+            </summary>
+        </member>
+        <member name="M:RMS.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services">Services to add</param>
+            <returns>Service provider</returns>
+        </member>
+    </members>
+</doc>

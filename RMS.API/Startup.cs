@@ -1,38 +1,92 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-
 namespace RMS.API
 {
+    using Autofac;
+    using Infrastructure.Extensions;
+    using Infrastructure.Middleware;
+    using IOC;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ApiExplorer;
+    using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
+    using Serilog;
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
+    /// .NET core startup class
+    /// </summary>
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Startup"/> class.
+        /// </summary>
+        /// <param name="configuration">Server configuration properties</param>
+        /// <param name="hostingEnvironment">Hosting environment information</param>
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
+            this.HostingEnvironment = hostingEnvironment;
         }
 
+        /// <summary>
+        /// Gets application configuration properties.
+        /// </summary>
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        /// <summary>
+        /// Gets hosting environment
+        /// </summary>
+        public IHostingEnvironment HostingEnvironment { get; }
+
+        /// <summary>
+        /// This method gets called by the runtime. Use this method to add services to the container.
+        /// </summary>
+        /// <param name="services">Services to add</param>
+        /// <returns>Service provider</returns>
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0).AddMvcOptions(e =>
+            services.AddCors();
+
+            services.RegisterMvc();
+
+            services.RegisterCompression();
+
+            services.RegisterSwaggerDocumentation(this.Configuration);
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.Configure<ApiBehaviorOptions>(options =>
             {
-                e.EnableEndpointRouting = false;
+                options.InvalidModelStateResponseFactory = actionContext =>
+                {
+                    var actionExecutingContext =
+                        actionContext as ActionExecutingContext;
+
+                    if (actionContext.ModelState.ErrorCount > 0
+                        && actionExecutingContext?.ActionArguments.Count ==
+                        actionContext.ActionDescriptor.Parameters.Count)
+                    {
+                        return new UnprocessableEntityObjectResult(actionContext.ModelState);
+                    }
+
+                    return new BadRequestObjectResult(actionContext.ModelState);
+                };
             });
+
+            var connectionString = this.Configuration.GetConnectionString("VUTP-RMS-SQL");
+
+            var container = AutoFacConfig.Initialize(connectionString, this.HostingEnvironment, services);
+
+            return container.Resolve<IServiceProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider apiVersionDescriptionProvider)
         {
             if (env.IsDevelopment())
             {
@@ -40,10 +94,71 @@ namespace RMS.API
             }
             else
             {
+                app.UseMiddleware(typeof(ErrorHandlingMiddleware));
                 app.UseHsts();
             }
 
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add(
+                    "Content-Security-Policy",
+                    $"default-src 'self'; img-src 'self' data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' {this.Configuration["Headers:CSP-API"]}; frame-src 'self'");
+
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+                context.Response.Headers.Add("X-Xss-Protection", "1");
+
+                context.Response.Headers.Add("X-Frame-Options", "SAMEORIGIN");
+
+                await next();
+            });
+
+            app.UseResponseCompression();
+
+            loggerFactory.AddSerilog();
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.Seq("http://localhost:5341")
+                .CreateLogger();
+            var allowedDomains = this.Configuration.GetSection("CORS").Get<List<string>>().ToArray();
+
+            app.UseCors(builder =>
+            {
+                builder
+                    .WithOrigins(allowedDomains)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            });
+
+            var documentationAuthorizedIps = this.Configuration.GetSection("DocumentationWhiteList").Get<List<string>>();
+
+            app.UseMiddleware<SwaggerAuthorizationMiddleware>(documentationAuthorizedIps);
+            app.UseSwagger();
+
             app.UseHttpsRedirection();
+            app.UseSwaggerUI(cfg =>
+            {
+                //cfg.OAuthClientId(this.Configuration["Swagger:ClientId"]);
+                //cfg.OAuthClientSecret(this.Configuration["Swagger:ClientSecret"]);
+                //cfg.OAuthRealm(this.Configuration["AzureAD:ClientId"]);
+                //cfg.OAuthAppName("Interactive Map API");
+                //cfg.OAuthScopeSeparator(" ");
+                //cfg.OAuthAdditionalQueryStringParams(new { resource = this.Configuration["AzureAD:ClientId"] });
+
+                foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
+                {
+                    cfg.SwaggerEndpoint($"/swagger/" + $"VUTP-RMS-APISpecification{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+                }
+
+                cfg.RoutePrefix = string.Empty;
+            });
+
+            app.UseStaticFiles();
+
+            app.UseAuthentication();
+
             app.UseMvc();
         }
     }
