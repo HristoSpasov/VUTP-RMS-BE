@@ -4,11 +4,11 @@
         <name>RMS.API</name>
     </assembly>
     <members>
-        <member name="M:RMS.API.Controllers.WeatherForecastController.Get">
+        <member name="M:RMS.API.Controllers.TeacherController.Get">
             <summary>
-            Get all.
+            Get all teachers.
             </summary>
-            <returns>Get all and so.</returns>
+            <returns>Get all teachers data.</returns>
         </member>
         <member name="M:RMS.API.Infrastructure.Extensions.RegisterSwaggerExtensions.RegisterSwaggerDocumentation(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>

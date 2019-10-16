@@ -9,21 +9,21 @@
     [ApiVersion("1.0")]
     [Produces("application/json")]
     [ApiController]
-    public class WeatherForecastController : ControllerBase
+    public class TeacherController : ControllerBase
     {
-        private readonly ILogger<WeatherForecastController> logger;
+        private readonly ILogger<TeacherController> logger;
         private readonly ITeacherService teacherService;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, ITeacherService teacherService)
+        public TeacherController(ILogger<TeacherController> logger, ITeacherService teacherService)
         {
             this.logger = logger;
             this.teacherService = teacherService;
         }
 
         /// <summary>
-        /// Get all.
+        /// Get all teachers.
         /// </summary>
-        /// <returns>Get all and so.</returns>
+        /// <returns>Get all teachers data.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         public string Get()
