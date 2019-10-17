@@ -4,11 +4,35 @@
         <name>RMS.API</name>
     </assembly>
     <members>
-        <member name="M:RMS.API.Controllers.TeacherController.Get">
+        <member name="F:RMS.API.Controllers.TeacherController.logger">
+            <summary>
+            Logger private field.
+            </summary>
+        </member>
+        <member name="F:RMS.API.Controllers.TeacherController.teacherService">
+            <summary>
+            Teacher service private field.
+            </summary>
+        </member>
+        <member name="M:RMS.API.Controllers.TeacherController.#ctor(Microsoft.Extensions.Logging.ILogger{RMS.API.Controllers.TeacherController},RMS.Services.Contracts.ITeacherService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RMS.API.Controllers.TeacherController"/> class.
+            </summary>
+            <param name="logger">Logger parameter.</param>
+            <param name="teacherService">Teacher service parameter.</param>
+        </member>
+        <member name="M:RMS.API.Controllers.TeacherController.GetAllTeachers">
             <summary>
             Get all teachers.
             </summary>
             <returns>Get all teachers data.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.TeacherController.GetTeacherById(System.Guid)">
+            <summary>
+            Get teacher by id.
+            </summary>
+            <param name="id">Teacher id.</param>
+            <returns>Get a teacher data.</returns>
         </member>
         <member name="M:RMS.API.Infrastructure.Extensions.RegisterSwaggerExtensions.RegisterSwaggerDocumentation(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
