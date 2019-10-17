@@ -44,11 +44,15 @@
 
         public DbSet<Room> Rooms { get; set; }
 
-        public DbSet<Specialty> Specialities { get; set; }
+        public DbSet<Specialty> Specialties { get; set; }
 
         public DbSet<Teacher> Teachers { get; set; }
 
         public DbSet<ChangeLog> ChangeLogs { get; set; }
+
+        public DbSet<SpecialtyDiscipline> SpecialtiesDisciplines { get; set; }
+
+        public DbSet<SpecialtyEvent> SpecialtiesEvents { get; set; }
 
         /// <inheritdoc/>
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))

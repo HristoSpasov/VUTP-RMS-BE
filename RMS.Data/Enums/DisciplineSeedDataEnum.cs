@@ -5,6 +5,7 @@
         OOP,
         Maths_1,
         Maths_2,
-        Operating_Systems
+        Operating_Systems,
+        LinuxAdministration
     }
 }

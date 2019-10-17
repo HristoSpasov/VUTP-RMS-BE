@@ -15,9 +15,5 @@
         ISeedService SeedSpecialtyDiscipline();
 
         ISeedService SeedEvents();
-
-        ISeedService SeedRoomEvent();
-
-        ISeedService SeedTeacherEvent();
     }
 }

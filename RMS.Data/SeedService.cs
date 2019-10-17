@@ -24,14 +24,12 @@
             this.SeedTeachers();
             this.SeedSpecialtyDiscipline();
             this.SeedEvents();
-            this.SeedRoomEvent();
-            this.SeedTeacherEvent();
         }
 
 
         public ISeedService SeedSpecialty()
         {
-            if (!this.dbContext.Specialities.Any())
+            if (!this.dbContext.Specialties.Any())
             {
                 var specialties = new List<Specialty>()
                 {
@@ -49,9 +47,21 @@
                     },
                     new Specialty()
                     {
+                        Id = Guid.Parse("6a96cd00-5862-470d-bcba-efe577079ccd"),
+                        Name = SpecialtySeedDataEnum.Software_Design.ToString(),
+                        Grade = 3
+                    },
+                    new Specialty()
+                    {
                         Id = Guid.Parse("c359a916-c3c5-4505-93d0-61662abc508a"),
                         Name = SpecialtySeedDataEnum.KASP.ToString(),
                         Grade = 1
+                    },
+                    new Specialty()
+                    {
+                        Id = Guid.Parse("d1cfc921-e4eb-4955-8b57-a5beb2be028b"),
+                        Name = SpecialtySeedDataEnum.KASP.ToString(),
+                        Grade = 2
                     },
                     new Specialty()
                     {
@@ -60,7 +70,7 @@
                     }
                 };
 
-                this.dbContext.Specialities.AddRange(specialties);
+                this.dbContext.Specialties.AddRange(specialties);
 
 
                 this.dbContext.SaveChanges();
@@ -94,6 +104,11 @@
                     {
                         Id = Guid.Parse("15b4ccf6-5599-429a-93ab-ff48a43da6e9"),
                         Name = DisciplineSeedDataEnum.Operating_Systems.ToString()
+                    },
+                    new Discipline()
+                    {
+                        Id = Guid.Parse("57908f04-cf54-4597-ae68-b9137cd18377"),
+                        Name = DisciplineSeedDataEnum.LinuxAdministration.ToString()
                     }
                 };
 
@@ -164,7 +179,7 @@
                     {
                         Id = Guid.Parse("b1b62a86-6fc0-451b-a05d-b753d7955a1e"),
                         FirstName = "Merry",
-                        LastName = "Stoiceva",
+                        LastName = "Dimitrova",
                         AcademicTitle = "DTN"
                     },new Teacher()
                     {
@@ -185,22 +200,197 @@
 
         public ISeedService SeedSpecialtyDiscipline()
         {
-            throw new System.NotImplementedException();
-        }
+            if (!this.dbContext.SpecialtiesDisciplines.Any())
+            {
+                var oopDiscipline = this.dbContext.Disciplines.FirstOrDefault(e => e.Name == DisciplineSeedDataEnum.OOP.ToString());
+                var mathOneDiscipline = this.dbContext.Disciplines.FirstOrDefault(e => e.Name == DisciplineSeedDataEnum.Maths_1.ToString());
+                var mathTwoDiscipline = this.dbContext.Disciplines.FirstOrDefault(e => e.Name == DisciplineSeedDataEnum.Maths_2.ToString());
+                var operatingSystemDiscipline = this.dbContext.Disciplines.FirstOrDefault(e => e.Name == DisciplineSeedDataEnum.Operating_Systems.ToString());
+                var linuxAdministrationDiscipline = this.dbContext.Disciplines.FirstOrDefault(e => e.Name == DisciplineSeedDataEnum.LinuxAdministration.ToString());
 
-        public ISeedService SeedRoomEvent()
-        {
-            throw new System.NotImplementedException();
-        }
+                var kaspSpecialtyFirstYear = this.dbContext.Specialties.FirstOrDefault(e => e.Name == SpecialtySeedDataEnum.KASP.ToString() && e.Grade == 1);
+                var kaspSpecialtySecondYear = this.dbContext.Specialties.FirstOrDefault(e => e.Name == SpecialtySeedDataEnum.KASP.ToString() && e.Grade == 2);
+                var kaspSpecialtyThirdYear = this.dbContext.Specialties.FirstOrDefault(e => e.Name == SpecialtySeedDataEnum.KASP.ToString() && e.Grade == 3);
+                var softwareDesignSpecialtyFirstYear = this.dbContext.Specialties.FirstOrDefault(e => e.Name == SpecialtySeedDataEnum.Software_Design.ToString() && e.Grade == 1);
+                var softwareDesignSpecialtySecondYear = this.dbContext.Specialties.FirstOrDefault(e => e.Name == SpecialtySeedDataEnum.Software_Design.ToString() && e.Grade == 2);
+                var softwareDesignSpecialtyThirdYear = this.dbContext.Specialties.FirstOrDefault(e => e.Name == SpecialtySeedDataEnum.Software_Design.ToString() && e.Grade == 3);
 
-        public ISeedService SeedTeacherEvent()
-        {
-            throw new System.NotImplementedException();
+                var specialtiesDisciplines = new List<SpecialtyDiscipline>()
+                {
+                    new SpecialtyDiscipline()
+                    {
+                        Id = Guid.Parse("403f3474-2c7a-4621-9bc0-5140af44abcc"),
+                        Specialty = kaspSpecialtyFirstYear,
+                        Discipline = mathOneDiscipline,
+                    },
+                    new SpecialtyDiscipline()
+                    {
+                        Id = Guid.Parse("cb0d38ab-c667-48b1-852e-94ba46d887df"),
+                        Specialty = kaspSpecialtyFirstYear,
+                        Discipline = mathTwoDiscipline,
+                    },
+                    new SpecialtyDiscipline()
+                    {
+                        Id = Guid.Parse("7f0c8f1b-5dd3-4a01-9f22-664fb899a8ea"),
+                        Specialty = kaspSpecialtyFirstYear,
+                        Discipline = operatingSystemDiscipline,
+                    },
+                    new SpecialtyDiscipline()
+                    {
+                        Id = Guid.Parse("c81d2296-447b-4d4f-b77a-7d0dff35f17a"),
+                        Specialty = kaspSpecialtySecondYear,
+                        Discipline = linuxAdministrationDiscipline,
+                    },
+                    new SpecialtyDiscipline()
+                    {
+                        Id = Guid.Parse("915312ee-1aee-4fac-8dfe-873833d50782"),
+                        Specialty = softwareDesignSpecialtyFirstYear,
+                        Discipline = mathOneDiscipline,
+                    },
+                    new SpecialtyDiscipline()
+                    {
+                        Id = Guid.Parse("c752ceb7-570f-40b6-a12d-9c0fd52a3d14"),
+                        Specialty = softwareDesignSpecialtyFirstYear,
+                        Discipline = mathTwoDiscipline,
+                    },
+                    new SpecialtyDiscipline()
+                    {
+                        Id = Guid.Parse("5c7fc1c5-dbcf-4d4e-90ee-3e5f759d760e"),
+                        Specialty = softwareDesignSpecialtyFirstYear,
+                        Discipline = operatingSystemDiscipline,
+                    },
+                    new SpecialtyDiscipline()
+                    {
+                        Id = Guid.Parse("3b7147ec-45cf-40ab-8f0d-3d4edc34aa7c"),
+                        Specialty = softwareDesignSpecialtyThirdYear,
+                        Discipline = oopDiscipline,
+                    },
+                    new SpecialtyDiscipline()
+                    {
+                        Id = Guid.Parse("83242702-c37b-4c39-aa0b-a8e3030277b5"),
+                        Specialty = softwareDesignSpecialtySecondYear,
+                        Discipline = linuxAdministrationDiscipline,
+                    }
+                };
+
+                this.dbContext.SpecialtiesDisciplines.AddRange(specialtiesDisciplines);
+
+                this.dbContext.SaveChanges();
+            }
+
+            return this;
         }
 
         public ISeedService SeedEvents()
         {
-            throw new System.NotImplementedException();
+            if (!this.dbContext.Events.Any())
+            {
+                var oopDiscipline = this.dbContext.Disciplines.FirstOrDefault(e => e.Name == DisciplineSeedDataEnum.OOP.ToString());
+                var mathOneDiscipline = this.dbContext.Disciplines.FirstOrDefault(e => e.Name == DisciplineSeedDataEnum.Maths_1.ToString());
+                var mathTwoDiscipline = this.dbContext.Disciplines.FirstOrDefault(e => e.Name == DisciplineSeedDataEnum.Maths_2.ToString());
+                var operatingSystemDiscipline = this.dbContext.Disciplines.FirstOrDefault(e => e.Name == DisciplineSeedDataEnum.Operating_Systems.ToString());
+                var linuxAdministrationDiscipline = this.dbContext.Disciplines.FirstOrDefault(e => e.Name == DisciplineSeedDataEnum.LinuxAdministration.ToString());
+
+                var kaspSpecialtyFirstYear = this.dbContext.Specialties.FirstOrDefault(e => e.Name == SpecialtySeedDataEnum.KASP.ToString() && e.Grade == 1);
+                var kaspSpecialtySecondYear = this.dbContext.Specialties.FirstOrDefault(e => e.Name == SpecialtySeedDataEnum.KASP.ToString() && e.Grade == 2);
+                var kaspSpecialtyThirdYear = this.dbContext.Specialties.FirstOrDefault(e => e.Name == SpecialtySeedDataEnum.KASP.ToString() && e.Grade == 3);
+                var softwareDesignSpecialtyFirstYear = this.dbContext.Specialties.FirstOrDefault(e => e.Name == SpecialtySeedDataEnum.Software_Design.ToString() && e.Grade == 1);
+                var softwareDesignSpecialtySecondYear = this.dbContext.Specialties.FirstOrDefault(e => e.Name == SpecialtySeedDataEnum.Software_Design.ToString() && e.Grade == 2);
+                var softwareDesignSpecialtyThirdYear = this.dbContext.Specialties.FirstOrDefault(e => e.Name == SpecialtySeedDataEnum.Software_Design.ToString() && e.Grade == 3);
+
+                var events = new List<Event>()
+                {
+                    new Event()
+                    {
+                        Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "120"),
+                        Discipline = linuxAdministrationDiscipline,
+                        Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Hristo"),
+                        SpecialtiesEvents = new List<SpecialtyEvent>()
+                        {
+                            new SpecialtyEvent()
+                            {
+                                Specialty = kaspSpecialtyFirstYear
+                            },
+                            new SpecialtyEvent()
+                            {
+                                Specialty = softwareDesignSpecialtyFirstYear
+                            }
+                        },
+                        StartTime = DateTime.UtcNow,
+                        EndTime = DateTime.UtcNow.AddMinutes(45),
+                    },
+                    new Event()
+                    {
+                        Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "220"),
+                        Discipline = oopDiscipline,
+                        Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Nikolaj"),
+                        SpecialtiesEvents = new List<SpecialtyEvent>()
+                        {
+                            new SpecialtyEvent()
+                            {
+                                Specialty = softwareDesignSpecialtyThirdYear
+                            }
+                        },
+                        StartTime = DateTime.UtcNow.AddDays(1),
+                        EndTime = DateTime.UtcNow.AddDays(1).AddMinutes(45),
+                    },
+                    new Event()
+                    {
+                        Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "318"),
+                        Discipline = mathOneDiscipline,
+                        Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Merry"),
+                        SpecialtiesEvents = new List<SpecialtyEvent>()
+                        {
+                            new SpecialtyEvent()
+                            {
+                                Specialty = softwareDesignSpecialtyFirstYear
+                            }
+                        },
+                        StartTime = DateTime.UtcNow.AddDays(3),
+                        EndTime = DateTime.UtcNow.AddDays(3).AddMinutes(120),
+                    },
+                    new Event()
+                    {
+                        Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "318"),
+                        Discipline = mathTwoDiscipline,
+                        Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Merry"),
+                        SpecialtiesEvents = new List<SpecialtyEvent>()
+                        {
+                            new SpecialtyEvent()
+                            {
+                                Specialty = softwareDesignSpecialtySecondYear
+                            }
+                        },
+                        StartTime = DateTime.UtcNow.AddDays(-3),
+                        EndTime = DateTime.UtcNow.AddDays(-3).AddMinutes(120),
+                    },
+                    new Event()
+                    {
+                        Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "1005"),
+                        Discipline = operatingSystemDiscipline,
+                        Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Luybena"),
+                        SpecialtiesEvents = new List<SpecialtyEvent>()
+                        {
+                            new SpecialtyEvent()
+                            {
+                                Specialty = softwareDesignSpecialtySecondYear
+                            },
+                            new SpecialtyEvent()
+                            {
+                                Specialty = kaspSpecialtySecondYear
+                            }
+                        },
+                        StartTime = DateTime.UtcNow.AddDays(5),
+                        EndTime = DateTime.UtcNow.AddDays(5).AddMinutes(240),
+                    },
+                };
+
+                this.dbContext.Events.AddRange(events);
+
+                this.dbContext.SaveChanges();
+            }
+
+            return this;
         }
     }
 }

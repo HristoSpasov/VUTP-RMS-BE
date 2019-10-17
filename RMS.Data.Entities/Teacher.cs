@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Reflection.Metadata;
 
     public class Teacher : BaseEntity
     {
@@ -17,5 +19,7 @@
         [Required]
         [StringLength(20, MinimumLength = 3)]
         public string AcademicTitle { get; set; }
+
+        public ICollection<Event> Events { get; set; }
     }
 }
