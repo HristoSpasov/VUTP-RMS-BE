@@ -131,7 +131,7 @@
                 if (hostingEnvironment.EnvironmentName != "Test")
                 {
                     db.Database.Migrate();
-                    seedService.SeedData();
+                    seedService.SeedAll();
                 }
             }
 

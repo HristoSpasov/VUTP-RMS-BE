@@ -2,6 +2,22 @@
 {
     public interface ISeedService
     {
-        void SeedData();
+        void SeedAll();
+
+        ISeedService SeedSpecialty();
+
+        ISeedService SeedDisciplines();
+
+        ISeedService SeedRooms();
+
+        ISeedService SeedTeachers();
+
+        ISeedService SeedSpecialtyDiscipline();
+
+        ISeedService SeedEvents();
+
+        ISeedService SeedRoomEvent();
+
+        ISeedService SeedTeacherEvent();
     }
 }
