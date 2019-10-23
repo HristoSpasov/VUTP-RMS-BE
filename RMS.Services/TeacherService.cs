@@ -52,10 +52,17 @@
         /// <inheritdoc/>
         public async Task<TeacherResponseModel> GetTeacherByIdAsync(Guid id)
         {
-            var teachers = await this.teacherRepository.GetAsync(id: id, enableTracking: false);
-            var mappedTeachers = this.mapper.Map<TeacherResponseModel>(teachers);
+            var teacher = await this.teacherRepository.GetAsync(id: id, enableTracking: false);
 
-            return mappedTeachers;
+            if (teacher == null)
+            {
+                this.logger.LogError($"Teacher with id '{id}' was not found in database.");
+                throw new InvalidOperationException("Teacher not found!");
+            }
+
+            var mappedTeacher = this.mapper.Map<TeacherResponseModel>(teacher);
+
+            return mappedTeacher;
         }
     }
 }

@@ -15,12 +15,12 @@
     [ApiVersion("1.0")]
     [Produces("application/json")]
     [ApiController]
-    public class TeacherController : ControllerBase
+    public class TeachersController : ControllerBase
     {
         /// <summary>
         /// Logger private field.
         /// </summary>
-        private readonly ILogger<TeacherController> logger;
+        private readonly ILogger<TeachersController> logger;
 
         /// <summary>
         /// Teacher service private field.
@@ -28,11 +28,11 @@
         private readonly ITeacherService teacherService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TeacherController"/> class.
+        /// Initializes a new instance of the <see cref="TeachersController"/> class.
         /// </summary>
         /// <param name="logger">Logger parameter.</param>
         /// <param name="teacherService">Teacher service parameter.</param>
-        public TeacherController(ILogger<TeacherController> logger, ITeacherService teacherService)
+        public TeachersController(ILogger<TeachersController> logger, ITeacherService teacherService)
         {
             this.logger = logger;
             this.teacherService = teacherService;
@@ -61,9 +61,16 @@
         [Route("{id}")]
         public async Task<IActionResult> GetTeacherById([FromRoute] [GuidNotEmpty] Guid id)
         {
-            var teacher = await this.teacherService.GetTeacherByIdAsync(id);
+            try
+            {
+                var teacher = await this.teacherService.GetTeacherByIdAsync(id);
 
-            return this.Ok(teacher);
+                return this.Ok(teacher);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest(e.Message);
+            }
         }
     }
 }
