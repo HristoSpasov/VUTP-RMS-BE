@@ -9,12 +9,11 @@
     /// </summary>
     public class RMSMapperProfile : Profile
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RMSMapperProfile"/> class. 
-        /// </summary>
         public RMSMapperProfile()
         {
-            this.CreateMap<Teacher, TeacherResponseModel>().ReverseMap();
+            this.CreateMap<Room, RoomResponseModel>();
+            this.CreateMap<Teacher, TeacherResponseModel>();
+            this.CreateMap<Specialty, SpecialtyResponseModel>();
         }
     }
 }

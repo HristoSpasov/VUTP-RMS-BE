@@ -4,60 +4,74 @@
         <name>RMS.API</name>
     </assembly>
     <members>
-        <member name="T:RMS.API.Controllers.TeacherController">
+        <member name="M:RMS.API.Controllers.RoomsController.#ctor(Microsoft.Extensions.Logging.ILogger{RMS.API.Controllers.RoomsController},RMS.Services.Contracts.IRoomService)">
             <summary>
-            Teacher actions controller.
-            </summary>
-        </member>
-        <member name="F:RMS.API.Controllers.TeacherController.logger">
-            <summary>
-            Logger private field.
-            </summary>
-        </member>
-        <member name="F:RMS.API.Controllers.TeacherController.teacherService">
-            <summary>
-            Teacher service private field.
-            </summary>
-        </member>
-        <member name="M:RMS.API.Controllers.TeacherController.#ctor(Microsoft.Extensions.Logging.ILogger{RMS.API.Controllers.TeacherController},RMS.Services.Contracts.ITeacherService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:RMS.API.Controllers.TeacherController"/> class.
+            Initializes a new instance of the <see cref="T:RMS.API.Controllers.RoomsController"/> class.
             </summary>
             <param name="logger">Logger parameter.</param>
-            <param name="teacherService">Teacher service parameter.</param>
+            <param name="roomService">Room service parameter.</param>
         </member>
-        <member name="M:RMS.API.Controllers.TeacherController.GetAllTeachers">
+        <member name="M:RMS.API.Controllers.RoomsController.GetAllRooms">
+            <summary>
+            Get all rooms.
+            </summary>
+            <returns>Get all rooms data.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.RoomsController.GetRoomById(System.Guid)">
+            <summary>
+            Get room by id.
+            </summary>
+            <param name="id">Room id.</param>
+            <returns>Get a room data.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.SpecialtiesController.#ctor(Microsoft.Extensions.Logging.ILogger{RMS.API.Controllers.SpecialtiesController},RMS.Services.Contracts.ISpecialtyService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RMS.API.Controllers.SpecialtiesController"/> class.
+            </summary>
+            <param name="logger">Logger parameter.</param>
+            <param name="specialtyService">Specialty service parameter.</param>
+        </member>
+        <member name="M:RMS.API.Controllers.SpecialtiesController.GetAllTeachers">
             <summary>
             Get all teachers.
             </summary>
             <returns>Get all teachers data.</returns>
         </member>
-        <member name="M:RMS.API.Controllers.TeacherController.GetTeacherById(System.Guid)">
+        <member name="M:RMS.API.Controllers.SpecialtiesController.GetTeacherById(System.Guid)">
             <summary>
             Get teacher by id.
             </summary>
             <param name="id">Teacher id.</param>
             <returns>Get a teacher data.</returns>
         </member>
-        <member name="M:RMS.API.Controllers.TeacherController.CreateTeacher(RMS.API.Models.RequestModels.CreateTeacherRequestModel)">
+        <member name="F:RMS.API.Controllers.TeachersController.logger">
             <summary>
-            Create new teacher.
+            Logger private field.
             </summary>
-            <param name="createTeacherRequestModel">Create teacher request model.</param>
-            <returns>Get a teacher data.</returns>
         </member>
-        <member name="M:RMS.API.Controllers.TeacherController.UpdateTeacher(RMS.API.Models.RequestModels.UpdateTeacherRequestModel)">
+        <member name="F:RMS.API.Controllers.TeachersController.teacherService">
             <summary>
-            Update teacher.
+            Teacher service private field.
             </summary>
-            <param name="updateTeacherRequestModel">Update teacher request model.</param>
-            <returns>Get a teacher data.</returns>
         </member>
-        <member name="M:RMS.API.Controllers.TeacherController.DeleteTeacher(System.Guid)">
+        <member name="M:RMS.API.Controllers.TeachersController.#ctor(Microsoft.Extensions.Logging.ILogger{RMS.API.Controllers.TeachersController},RMS.Services.Contracts.ITeacherService)">
             <summary>
-            Delete teacher.
+            Initializes a new instance of the <see cref="T:RMS.API.Controllers.TeachersController"/> class.
             </summary>
-            <param name="id">Teacher id to delete.</param>
+            <param name="logger">Logger parameter.</param>
+            <param name="teacherService">Teacher service parameter.</param>
+        </member>
+        <member name="M:RMS.API.Controllers.TeachersController.GetAllTeachers">
+            <summary>
+            Get all teachers.
+            </summary>
+            <returns>Get all teachers data.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.TeachersController.GetTeacherById(System.Guid)">
+            <summary>
+            Get teacher by id.
+            </summary>
+            <param name="id">Teacher id.</param>
             <returns>Get a teacher data.</returns>
         </member>
         <member name="M:RMS.API.Infrastructure.Extensions.RegisterSwaggerExtensions.RegisterSwaggerDocumentation(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
