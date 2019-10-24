@@ -7,10 +7,14 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
+    using Models.RequestModels;
     using Models.Validators.Attributes;
     using RMS.API.Models.ResponseModels;
     using RMS.Services.Contracts;
 
+    /// <summary>
+    /// Teacher actions controller.
+    /// </summary>
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [Produces("application/json")]
@@ -64,6 +68,67 @@
             var teacher = await this.teacherService.GetTeacherByIdAsync(id);
 
             return this.Ok(teacher);
+        }
+
+        /// <summary>
+        /// Create new teacher.
+        /// </summary>
+        /// <param name="createTeacherRequestModel">Create teacher request model.</param>
+        /// <returns>Get a teacher data.</returns>
+        [HttpPost]
+        [Route("create")]
+        [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
+        [Consumes("application/json")]
+        public async Task<IActionResult> CreateTeacher([FromBody] CreateTeacherRequestModel createTeacherRequestModel)
+        {
+            await this.teacherService.CreateTeacherAsync(createTeacherRequestModel);
+
+            return this.Ok();
+        }
+
+        /// <summary>
+        /// Update teacher.
+        /// </summary>
+        /// <param name="updateTeacherRequestModel">Update teacher request model.</param>
+        /// <returns>Get a teacher data.</returns>
+        [HttpPut]
+        [Route("update")]
+        [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
+        [Consumes("application/json")]
+        public async Task<IActionResult> UpdateTeacher([FromBody] UpdateTeacherRequestModel updateTeacherRequestModel)
+        {
+            try
+            {
+                await this.teacherService.UpdateTeacherAsync(updateTeacherRequestModel);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest();
+            }
+
+            return this.Ok();
+        }
+
+        /// <summary>
+        /// Delete teacher.
+        /// </summary>
+        /// <param name="id">Teacher id to delete.</param>
+        /// <returns>Get a teacher data.</returns>
+        [HttpDelete]
+        [Route("delete/{id}")]
+        [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteTeacher([FromRoute] [GuidNotEmpty] Guid id)
+        {
+            try
+            {
+                await this.teacherService.DeleteTeacherAsync(id);
+            }
+            catch (Exception e)
+            {
+                return this.BadRequest();
+            }
+
+            return this.Ok();
         }
     }
 }

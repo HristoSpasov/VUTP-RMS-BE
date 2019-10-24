@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RMS.Repositories
+﻿namespace RMS.Repositories
 {
     using System;
     using System.Collections.Generic;
@@ -211,7 +207,7 @@ namespace RMS.Repositories
                 return;
             }
 
-            T exist = this.Get(entity.Id);
+            var exist = this.Get(entity.Id);
 
             if (exist != null)
             {
@@ -227,7 +223,7 @@ namespace RMS.Repositories
                 return;
             }
 
-            T exist = await this.GetAsync(entity.Id);
+            var exist = await this.GetAsync(entity.Id);
 
             if (exist != null)
             {

@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace RMS.Data.Migrations
+﻿namespace RMS.Data.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class InitialDatabaseMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
