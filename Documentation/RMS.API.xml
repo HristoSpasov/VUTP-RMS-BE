@@ -44,6 +44,11 @@
             <param name="id">Teacher id.</param>
             <returns>Get a teacher data.</returns>
         </member>
+        <member name="T:RMS.API.Controllers.TeachersController">
+            <summary>
+            Teacher actions controller.
+            </summary>
+        </member>
         <member name="F:RMS.API.Controllers.TeachersController.logger">
             <summary>
             Logger private field.
@@ -72,6 +77,27 @@
             Get teacher by id.
             </summary>
             <param name="id">Teacher id.</param>
+            <returns>Get a teacher data.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.TeachersController.CreateTeacher(RMS.API.Models.RequestModels.CreateTeacherRequestModel)">
+            <summary>
+            Create new teacher.
+            </summary>
+            <param name="createTeacherRequestModel">Create teacher request model.</param>
+            <returns>Get a teacher data.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.TeachersController.UpdateTeacher(RMS.API.Models.RequestModels.UpdateTeacherRequestModel)">
+            <summary>
+            Update teacher.
+            </summary>
+            <param name="updateTeacherRequestModel">Update teacher request model.</param>
+            <returns>Get a teacher data.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.TeachersController.DeleteTeacher(System.Guid)">
+            <summary>
+            Delete teacher.
+            </summary>
+            <param name="id">Teacher id to delete.</param>
             <returns>Get a teacher data.</returns>
         </member>
         <member name="M:RMS.API.Infrastructure.Extensions.RegisterSwaggerExtensions.RegisterSwaggerDocumentation(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
