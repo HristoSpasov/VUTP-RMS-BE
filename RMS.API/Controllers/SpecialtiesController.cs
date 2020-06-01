@@ -8,13 +8,13 @@
     using Microsoft.Extensions.Logging;
     using Models.ResponseModels;
     using Models.Validators.Attributes;
+    using RMS.API.Models.RequestModels;
     using Services.Contracts;
 
-    [Route("api/v{version:apiVersion}/[controller]")]
-    [ApiVersion("1.0")]
-    [Produces("application/json")]
-    [ApiController]
-    public class SpecialtiesController : ControllerBase
+    /// <summary>
+    /// Endpoints for consuming and managing specialty entities.
+    /// </summary>
+    public class SpecialtiesController : BaseController
     {
         private readonly ILogger<SpecialtiesController> logger;
         private readonly ISpecialtyService specialtyService;
@@ -31,38 +31,78 @@
         }
 
         /// <summary>
-        /// Get all teachers.
+        /// Get all specialties.
         /// </summary>
-        /// <returns>Get all teachers data.</returns>
+        /// <returns>Get all specialties data.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ICollection<SpecialtyResponseModel>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllTeachers()
+        public async Task<IActionResult> GetAllSpecialties()
         {
-            var teachers = await this.specialtyService.GetAllSpecialtiesAsync();
+            var specialties = await this.specialtyService.GetAllSpecialtiesAsync();
 
-            return this.Ok(teachers);
+            return this.Ok(specialties);
         }
 
         /// <summary>
-        /// Get teacher by id.
+        /// Get specialty by id.
         /// </summary>
-        /// <param name="id">Teacher id.</param>
-        /// <returns>Get a teacher data.</returns>
+        /// <param name="id">Specialty id.</param>
+        /// <returns>Get a specialty data.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(SpecialtyResponseModel), StatusCodes.Status200OK)]
         [Route("{id}")]
-        public async Task<IActionResult> GetTeacherById([FromRoute] [GuidNotEmpty] Guid id)
+        public async Task<IActionResult> GetSpecialtyById([FromRoute][GuidNotEmpty] Guid id)
         {
-            try
-            {
-                var teacher = await this.specialtyService.GetSpecialtyByIdAsync(id);
+            var specialty = await this.specialtyService.GetSpecialtyByIdAsync(id);
 
-                return this.Ok(teacher);
-            }
-            catch (Exception e)
-            {
-                return this.BadRequest(e.Message);
-            }
+            return this.Ok(specialty);
+        }
+
+        /// <summary>
+        /// Create new specialty.
+        /// </summary>
+        /// <param name="createSpecialtyRequestModel">Create specialty request model.</param>
+        /// <returns>Create specialty data resukt.</returns>
+        [HttpPost]
+        [Route("create")]
+        [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
+        [Consumes("application/json")]
+        public async Task<IActionResult> CreateSpecialty(CreateSpecialtyRequestModel createSpecialtyRequestModel)
+        {
+            await this.specialtyService.CreateSpecialtyAsync(createSpecialtyRequestModel);
+
+            return this.Ok($"Specialty '{createSpecialtyRequestModel.Name} - {createSpecialtyRequestModel.Grade}' successfully created.");
+        }
+
+        /// <summary>
+        /// Update specialty.
+        /// </summary>
+        /// <param name="updateSpecialtyRequestModel">Update specialty request model.</param>
+        /// <returns>Update specialty data result.</returns>
+        [HttpPut]
+        [Route("update")]
+        [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
+        [Consumes("application/json")]
+        public async Task<IActionResult> UpdateSpecialty(UpdateSpecialtyRequestModel updateSpecialtyRequestModel)
+        {
+            await this.specialtyService.UpdateSpecialtyAsync(updateSpecialtyRequestModel);
+
+            return this.Ok($"Teacher changed from <name> to '{updateSpecialtyRequestModel.Name} - {updateSpecialtyRequestModel.Grade}'");
+        }
+
+        /// <summary>
+        /// Delete specialty.
+        /// </summary>
+        /// <param name="id">Specialty id to delete.</param>
+        /// <returns>Delete specialty result.</returns>
+        [HttpDelete]
+        [Route("delete/{id}")]
+        [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteSpecialty([GuidNotEmpty] Guid id)
+        {
+            await this.specialtyService.DeleteSpecialtyAsync(id);
+
+            return this.Ok($"Specialty '<name>' successfully deleted.");
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace RMS.Data.Contracts
 {
+    using System.Threading.Tasks;
+
     public interface ISeedService
     {
         void SeedAll();
@@ -15,5 +17,7 @@
         ISeedService SeedSpecialtyDiscipline();
 
         ISeedService SeedEvents();
+
+        Task<ISeedService> SeedUsersAndRoles();
     }
 }

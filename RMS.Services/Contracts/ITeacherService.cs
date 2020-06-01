@@ -1,10 +1,10 @@
 ﻿namespace RMS.Services.Contracts
 {
-    using System;
+    using API.Models.RequestModels;
     using RMS.API.Models.ResponseModels;
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using API.Models.RequestModels;
 
     /// <summary>
     /// Teacher service.

@@ -4,6 +4,165 @@
         <name>RMS.API</name>
     </assembly>
     <members>
+        <member name="T:RMS.API.Controllers.AccountsController">
+            <summary>
+            Endpoints for register and managing user accounts.
+            </summary>
+        </member>
+        <member name="M:RMS.API.Controllers.AccountsController.#ctor(RMS.Services.Contracts.IAccountService,RMS.Services.Contracts.IJwtService,RMS.Services.CacheService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RMS.API.Controllers.AccountsController"/> class.
+            </summary>
+            <param name="accountService">Account serveice parameter.</param>
+            <param name="jwtService">JWT service parameter.</param>
+            <param name="cacheService">Cache service parameter.</param>
+        </member>
+        <member name="M:RMS.API.Controllers.AccountsController.Register(RMS.API.Models.RequestModels.RegisterUserRequstModel)">
+            <summary>
+            Register user endpoint.
+            </summary>
+            <param name="registerUserRequstModel">Register user request model.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.AccountsController.Login(RMS.API.Models.RequestModels.LoginRequestModel)">
+            <summary>
+            Login user endpoint.
+            </summary>
+            <param name="credentials">User credentials model.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.AccountsController.ValidateEmailAddress(System.String)">
+            <summary>
+            Validate user email endpoint.
+            </summary>
+            <param name="email">Email address to validate.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.AccountsController.ValidateUserName(System.String)">
+            <summary>
+            Validate username endpoint.
+            </summary>
+            <param name="userName">Username to validate.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="T:RMS.API.Controllers.BaseController">
+            <summary>
+            Base controller.
+            </summary>
+        </member>
+        <member name="T:RMS.API.Controllers.DisciplinesController">
+            <summary>
+            Endpoints for consuming and managing Discipline entities.
+            </summary>
+        </member>
+        <member name="F:RMS.API.Controllers.DisciplinesController.logger">
+            <summary>
+            Logger private field.
+            </summary>
+        </member>
+        <member name="F:RMS.API.Controllers.DisciplinesController.disciplineService">
+            <summary>
+            Discipline service private field.
+            </summary>
+        </member>
+        <member name="M:RMS.API.Controllers.DisciplinesController.#ctor(Microsoft.Extensions.Logging.ILogger{RMS.API.Controllers.DisciplinesController},RMS.Services.Contracts.IDisciplineService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RMS.API.Controllers.DisciplinesController"/> class.
+            </summary>
+            <param name="logger">Logger parameter.</param>
+            <param name="disciplineService">Discipline service parameter.</param>
+        </member>
+        <member name="M:RMS.API.Controllers.DisciplinesController.GetAllDisciplines">
+            <summary>
+            Get all Disciplines.
+            </summary>
+            <returns>Get all Disciplines data.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.DisciplinesController.GetDisciplineById(System.Guid)">
+            <summary>
+            Get Discipline by id.
+            </summary>
+            <param name="id">Discipline id.</param>
+            <returns>Get a Discipline data.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.DisciplinesController.CreateDiscipline(RMS.API.Models.RequestModels.CreateDisciplineRequestModel)">
+            <summary>
+            Create new Discipline.
+            </summary>
+            <param name="createDisciplineRequestModel">Create Discipline request model.</param>
+            <returns>Create Discipline resukt.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.DisciplinesController.ValidateDisciplineNumber(System.String)">
+            <summary>
+            Validate discipline name endpoint.
+            </summary>
+            <param name="name">Discipline name to validate.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.DisciplinesController.UpdateDiscipline(RMS.API.Models.RequestModels.UpdateDisciplineRequestModel)">
+            <summary>
+            Update Discipline.
+            </summary>
+            <param name="updateDisciplineRequestModel">Update Discipline request model.</param>
+            <returns>Uodate Discipline data result.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.DisciplinesController.DeleteDiscipline(System.Guid)">
+            <summary>
+            Delete Discipline.
+            </summary>
+            <param name="id">Discipline id to delete.</param>
+            <returns>Delete Discipline data result.</returns>
+        </member>
+        <member name="T:RMS.API.Controllers.EventsController">
+            <summary>
+            Endpoints for register and managing events.
+            </summary>
+        </member>
+        <member name="M:RMS.API.Controllers.EventsController.#ctor(RMS.Services.Contracts.IEventService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RMS.API.Controllers.EventsController"/> class.
+            </summary>
+            <param name="eventService">Event serveice parameter.</param>
+        </member>
+        <member name="M:RMS.API.Controllers.EventsController.GetAll">
+            <summary>
+            Get all events.
+            </summary>
+            <returns>Get all events data.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.EventsController.GetAllFiltered(RMS.API.Models.RequestModels.EventFilterRequestModel)">
+            <summary>
+            Get filtered events events.
+            </summary>
+            <param name="eventFilterRequestModel">Event filter request model.</param>
+            <returns>Get all filtered events data.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.EventsController.CreateEvent(RMS.API.Models.RequestModels.BaseEventRequestModel)">
+            <summary>
+            Create new event.
+            </summary>
+            <param name="createEventRequest">Create event request model.</param>
+            <returns>Create event result.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.EventsController.UpdateEvent(RMS.API.Models.RequestModels.BaseEventRequestModel)">
+            <summary>
+            Update event.
+            </summary>
+            <param name="updateEventRequestModel">Update event request model.</param>
+            <returns>Create Discipline result.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.EventsController.DeleteEvent(System.Guid)">
+            <summary>
+            Delete event.
+            </summary>
+            <param name="id">Event id to delete.</param>
+            <returns>Delete teacher data result.</returns>
+        </member>
+        <member name="T:RMS.API.Controllers.RoomsController">
+            <summary>
+            Endpoints for consuming and managing room entities.
+            </summary>
+        </member>
         <member name="M:RMS.API.Controllers.RoomsController.#ctor(Microsoft.Extensions.Logging.ILogger{RMS.API.Controllers.RoomsController},RMS.Services.Contracts.IRoomService)">
             <summary>
             Initializes a new instance of the <see cref="T:RMS.API.Controllers.RoomsController"/> class.
@@ -24,6 +183,39 @@
             <param name="id">Room id.</param>
             <returns>Get a room data.</returns>
         </member>
+        <member name="M:RMS.API.Controllers.RoomsController.ValidateRoomNumber(System.String)">
+            <summary>
+            Validate room number endpoint.
+            </summary>
+            <param name="number">Room number to validate.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.RoomsController.CreateRoom(RMS.API.Models.RequestModels.CreateRoomRequestModel)">
+            <summary>
+            Create new room.
+            </summary>
+            <param name="createRoomRequestModel">Create teacher request model.</param>
+            <returns>Create room data resukt.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.RoomsController.UpdateRoom(RMS.API.Models.RequestModels.UpdateRoomRequestModel)">
+            <summary>
+            Update room.
+            </summary>
+            <param name="updateRoomRequestModel">Update room request model.</param>
+            <returns>Uodate room data result.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.RoomsController.DeleteTeacher(System.Guid)">
+            <summary>
+            Delete room.
+            </summary>
+            <param name="id">Room id to delete.</param>
+            <returns>Delete room result.</returns>
+        </member>
+        <member name="T:RMS.API.Controllers.SpecialtiesController">
+            <summary>
+            Endpoints for consuming and managing specialty entities.
+            </summary>
+        </member>
         <member name="M:RMS.API.Controllers.SpecialtiesController.#ctor(Microsoft.Extensions.Logging.ILogger{RMS.API.Controllers.SpecialtiesController},RMS.Services.Contracts.ISpecialtyService)">
             <summary>
             Initializes a new instance of the <see cref="T:RMS.API.Controllers.SpecialtiesController"/> class.
@@ -31,22 +223,43 @@
             <param name="logger">Logger parameter.</param>
             <param name="specialtyService">Specialty service parameter.</param>
         </member>
-        <member name="M:RMS.API.Controllers.SpecialtiesController.GetAllTeachers">
+        <member name="M:RMS.API.Controllers.SpecialtiesController.GetAllSpecialties">
             <summary>
-            Get all teachers.
+            Get all specialties.
             </summary>
-            <returns>Get all teachers data.</returns>
+            <returns>Get all specialties data.</returns>
         </member>
-        <member name="M:RMS.API.Controllers.SpecialtiesController.GetTeacherById(System.Guid)">
+        <member name="M:RMS.API.Controllers.SpecialtiesController.GetSpecialtyById(System.Guid)">
             <summary>
-            Get teacher by id.
+            Get specialty by id.
             </summary>
-            <param name="id">Teacher id.</param>
-            <returns>Get a teacher data.</returns>
+            <param name="id">Specialty id.</param>
+            <returns>Get a specialty data.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.SpecialtiesController.CreateSpecialty(RMS.API.Models.RequestModels.CreateSpecialtyRequestModel)">
+            <summary>
+            Create new specialty.
+            </summary>
+            <param name="createSpecialtyRequestModel">Create specialty request model.</param>
+            <returns>Create specialty data resukt.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.SpecialtiesController.UpdateSpecialty(RMS.API.Models.RequestModels.UpdateSpecialtyRequestModel)">
+            <summary>
+            Update specialty.
+            </summary>
+            <param name="updateSpecialtyRequestModel">Update specialty request model.</param>
+            <returns>Update specialty data result.</returns>
+        </member>
+        <member name="M:RMS.API.Controllers.SpecialtiesController.DeleteSpecialty(System.Guid)">
+            <summary>
+            Delete specialty.
+            </summary>
+            <param name="id">Specialty id to delete.</param>
+            <returns>Delete specialty result.</returns>
         </member>
         <member name="T:RMS.API.Controllers.TeachersController">
             <summary>
-            Teacher actions controller.
+            Endpoints for consuming and managing teacher entities.
             </summary>
         </member>
         <member name="F:RMS.API.Controllers.TeachersController.logger">
@@ -84,21 +297,66 @@
             Create new teacher.
             </summary>
             <param name="createTeacherRequestModel">Create teacher request model.</param>
-            <returns>Get a teacher data.</returns>
+            <returns>Create teacher resukt.</returns>
         </member>
         <member name="M:RMS.API.Controllers.TeachersController.UpdateTeacher(RMS.API.Models.RequestModels.UpdateTeacherRequestModel)">
             <summary>
             Update teacher.
             </summary>
             <param name="updateTeacherRequestModel">Update teacher request model.</param>
-            <returns>Get a teacher data.</returns>
+            <returns>Uodate teacher data result.</returns>
         </member>
         <member name="M:RMS.API.Controllers.TeachersController.DeleteTeacher(System.Guid)">
             <summary>
             Delete teacher.
             </summary>
             <param name="id">Teacher id to delete.</param>
-            <returns>Get a teacher data.</returns>
+            <returns>Delete teacher data result.</returns>
+        </member>
+        <member name="T:RMS.API.Infrastructure.Extensions.ApiBehaviorExtension">
+            <summary>
+            Configure API behavior
+            </summary>
+        </member>
+        <member name="M:RMS.API.Infrastructure.Extensions.ApiBehaviorExtension.ConfigureApiBadModelBehavior(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configure API behavior
+            </summary>
+            <param name="services">Service collection.</param>
+        </member>
+        <member name="T:RMS.API.Infrastructure.Extensions.AuthenticationConfigurationExtension">
+            <summary>
+            Configure authentication extensions.
+            </summary>
+        </member>
+        <member name="M:RMS.API.Infrastructure.Extensions.AuthenticationConfigurationExtension.ConfigureJWTAuthentication(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Configure JWT authentication.
+            </summary>
+            <param name="services">Sercice collection.</param>
+            <param name="configuration">Aoolication configuration.</param>
+        </member>
+        <member name="T:RMS.API.Infrastructure.Extensions.AuthorizationConfigurationExtension">
+            <summary>
+            Authorization configuration extension methods.
+            </summary>
+        </member>
+        <member name="M:RMS.API.Infrastructure.Extensions.AuthorizationConfigurationExtension.ConfigureAuthorizationClaimPolicies(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configure authorization claim based policies.
+            </summary>
+            <param name="services">Service collection parameter.</param>
+        </member>
+        <member name="T:RMS.API.Infrastructure.Extensions.IdentityConfigurationExtension">
+            <summary>
+            Identity configuration extetension.
+            </summary>
+        </member>
+        <member name="M:RMS.API.Infrastructure.Extensions.IdentityConfigurationExtension.ConfigureIdentity(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configure identity.
+            </summary>
+            <param name="services">Service collection parameter.</param>
         </member>
         <member name="M:RMS.API.Infrastructure.Extensions.RegisterSwaggerExtensions.RegisterSwaggerDocumentation(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>

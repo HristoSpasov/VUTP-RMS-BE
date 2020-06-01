@@ -11,6 +11,6 @@
 
         public ICollection<SpecialtyDiscipline> DisciplineSpecialties { get; set; }
 
-        public ICollection<Event> Events { get; set; }
+        public ICollection<DisciplineEvent> DisciplineEvents { get; set; }
     }
 }

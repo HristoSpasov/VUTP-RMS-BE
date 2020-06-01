@@ -1,16 +1,17 @@
 ﻿namespace RMS.Data
 {
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
+    using RMS.Data.Entities;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
-    using RMS.Data.Entities;
 
-    public class RMS_Db_Context : DbContext
+    public class RMS_Db_Context : IdentityDbContext<User>
     {
         /// <summary>
         /// Field containing instance of EntityConfiguration class.
@@ -53,6 +54,12 @@
         public DbSet<SpecialtyDiscipline> SpecialtiesDisciplines { get; set; }
 
         public DbSet<SpecialtyEvent> SpecialtiesEvents { get; set; }
+
+        public DbSet<DisciplineEvent> DisciplinesEvents { get; set; }
+
+        public DbSet<TeacherEvent> TeachersEvents { get; set; }
+
+        public DbSet<RoomEvent> RoomsEvents { get; set; }
 
         /// <inheritdoc/>
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
@@ -127,6 +134,11 @@
                     var method = setGlobalQueryFilterMethod.MakeGenericMethod(type);
                     method.Invoke(this, new object[] { modelBuilder });
                 });
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
 
             base.OnModelCreating(modelBuilder);
         }

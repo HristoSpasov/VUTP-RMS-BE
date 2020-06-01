@@ -1,12 +1,11 @@
 ﻿namespace RMS.Data
 {
-    using System;
-    using System.Collections.Generic;
     using Entities;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
     using Microsoft.EntityFrameworkCore.Internal;
     using Newtonsoft.Json;
-    using RMS.Data;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Change log entry behaviour.

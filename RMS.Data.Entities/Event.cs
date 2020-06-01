@@ -7,26 +7,17 @@
     public class Event : BaseEntity
     {
         [Required]
-        public Guid DisciplineId { get; set; }
-
-        public Discipline Discipline { get; set; }
+        public string StartTime { get; set; }
 
         [Required]
-        public Guid TeacherId { get; set; }
+        public string EndTime { get; set; }
 
-        public Teacher Teacher { get; set; }
+        public ICollection<SpecialtyEvent> EventSpecialties { get; set; }
 
-        [Required]
-        public Guid RoomId { get; set; }
+        public ICollection<RoomEvent> EventRooms { get; set; }
 
-        public Room Room { get; set; }
+        public ICollection<DisciplineEvent> EventDisciplines { get; set; }
 
-        [Required]
-        public DateTime StartTime { get; set; }
-
-        [Required]
-        public DateTime EndTime { get; set; }
-
-        public ICollection<SpecialtyEvent> SpecialtiesEvents { get; set; }
+        public ICollection<TeacherEvent> EventTeachers { get; set; }
     }
 }

@@ -1,31 +1,37 @@
 ﻿namespace RMS.Data
 {
+    using Entities;
+    using Enums;
+    using Microsoft.AspNetCore.Identity;
+    using RMS.Data.Contracts;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Entities;
-    using Enums;
-    using RMS.Data.Contracts;
+    using System.Threading.Tasks;
 
     public class SeedService : ISeedService
     {
         private readonly RMS_Db_Context dbContext;
+        private readonly UserManager<User> userManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        public SeedService(RMS_Db_Context dbContext)
+        public SeedService(RMS_Db_Context dbContext, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.dbContext = dbContext;
+            this.userManager = userManager;
+            this.roleManager = roleManager;
         }
 
         public void SeedAll()
         {
-            this.SeedSpecialty();
-            this.SeedDisciplines();
-            this.SeedRooms();
-            this.SeedTeachers();
-            this.SeedSpecialtyDiscipline();
-            this.SeedEvents();
+            //this.SeedSpecialty();
+            //this.SeedDisciplines();
+            //this.SeedRooms();
+            //this.SeedTeachers();
+            //this.SeedSpecialtyDiscipline();
+            //this.SeedEvents();
+            this.SeedUsersAndRoles().GetAwaiter().GetResult();
         }
-
 
         public ISeedService SeedSpecialty()
         {
@@ -71,7 +77,6 @@
                 };
 
                 this.dbContext.Specialties.AddRange(specialties);
-
 
                 this.dbContext.SaveChanges();
             }
@@ -128,7 +133,7 @@
                 {
                     new Room()
                     {
-                        Id = Guid.Parse("f5edeaeb-1ccb-4cba-ab3e-7a6c5f6b7894"), 
+                        Id = Guid.Parse("f5edeaeb-1ccb-4cba-ab3e-7a6c5f6b7894"),
                         Number = "120"
                     },
                     new Room()
@@ -300,89 +305,89 @@
 
                 var events = new List<Event>()
                 {
-                    new Event()
-                    {
-                        Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "120"),
-                        Discipline = linuxAdministrationDiscipline,
-                        Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Hristo"),
-                        SpecialtiesEvents = new List<SpecialtyEvent>()
-                        {
-                            new SpecialtyEvent()
-                            {
-                                Specialty = kaspSpecialtyFirstYear
-                            },
-                            new SpecialtyEvent()
-                            {
-                                Specialty = softwareDesignSpecialtyFirstYear
-                            }
-                        },
-                        StartTime = DateTime.UtcNow,
-                        EndTime = DateTime.UtcNow.AddMinutes(45),
-                    },
-                    new Event()
-                    {
-                        Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "220"),
-                        Discipline = oopDiscipline,
-                        Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Nikolaj"),
-                        SpecialtiesEvents = new List<SpecialtyEvent>()
-                        {
-                            new SpecialtyEvent()
-                            {
-                                Specialty = softwareDesignSpecialtyThirdYear
-                            }
-                        },
-                        StartTime = DateTime.UtcNow.AddDays(1),
-                        EndTime = DateTime.UtcNow.AddDays(1).AddMinutes(45),
-                    },
-                    new Event()
-                    {
-                        Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "318"),
-                        Discipline = mathOneDiscipline,
-                        Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Merry"),
-                        SpecialtiesEvents = new List<SpecialtyEvent>()
-                        {
-                            new SpecialtyEvent()
-                            {
-                                Specialty = softwareDesignSpecialtyFirstYear
-                            }
-                        },
-                        StartTime = DateTime.UtcNow.AddDays(3),
-                        EndTime = DateTime.UtcNow.AddDays(3).AddMinutes(120),
-                    },
-                    new Event()
-                    {
-                        Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "318"),
-                        Discipline = mathTwoDiscipline,
-                        Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Merry"),
-                        SpecialtiesEvents = new List<SpecialtyEvent>()
-                        {
-                            new SpecialtyEvent()
-                            {
-                                Specialty = softwareDesignSpecialtySecondYear
-                            }
-                        },
-                        StartTime = DateTime.UtcNow.AddDays(-3),
-                        EndTime = DateTime.UtcNow.AddDays(-3).AddMinutes(120),
-                    },
-                    new Event()
-                    {
-                        Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "1005"),
-                        Discipline = operatingSystemDiscipline,
-                        Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Luybena"),
-                        SpecialtiesEvents = new List<SpecialtyEvent>()
-                        {
-                            new SpecialtyEvent()
-                            {
-                                Specialty = softwareDesignSpecialtySecondYear
-                            },
-                            new SpecialtyEvent()
-                            {
-                                Specialty = kaspSpecialtySecondYear
-                            }
-                        },
-                        StartTime = DateTime.UtcNow.AddDays(5),
-                        EndTime = DateTime.UtcNow.AddDays(5).AddMinutes(240),
-                    },
+                    //new Event()
+                    //{
+                    //    Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "120"),
+                    //    Discipline = linuxAdministrationDiscipline,
+                    //    Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Hristo"),
+                    //    EventSpecialties = new List<SpecialtyEvent>()
+                    //    {
+                    //        new SpecialtyEvent()
+                    //        {
+                    //            Specialty = kaspSpecialtyFirstYear
+                    //        },
+                    //        new SpecialtyEvent()
+                    //        {
+                    //            Specialty = softwareDesignSpecialtyFirstYear
+                    //        }
+                    //    },
+                    //    StartTime = DateTime.UtcNow,
+                    //    EndTime = DateTime.UtcNow.AddMinutes(45),
+                    //},
+                    //new Event()
+                    //{
+                    //    Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "220"),
+                    //    Discipline = oopDiscipline,
+                    //    Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Nikolaj"),
+                    //    EventSpecialties = new List<SpecialtyEvent>()
+                    //    {
+                    //        new SpecialtyEvent()
+                    //        {
+                    //            Specialty = softwareDesignSpecialtyThirdYear
+                    //        }
+                    //    },
+                    //    StartTime = DateTime.UtcNow.AddDays(1),
+                    //    EndTime = DateTime.UtcNow.AddDays(1).AddMinutes(45),
+                    //},
+                    //new Event()
+                    //{
+                    //    Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "318"),
+                    //    Discipline = mathOneDiscipline,
+                    //    Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Merry"),
+                    //    EventSpecialties = new List<SpecialtyEvent>()
+                    //    {
+                    //        new SpecialtyEvent()
+                    //        {
+                    //            Specialty = softwareDesignSpecialtyFirstYear
+                    //        }
+                    //    },
+                    //    StartTime = DateTime.UtcNow.AddDays(3),
+                    //    EndTime = DateTime.UtcNow.AddDays(3).AddMinutes(120),
+                    //},
+                    //new Event()
+                    //{
+                    //    Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "318"),
+                    //    Discipline = mathTwoDiscipline,
+                    //    Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Merry"),
+                    //    EventSpecialties = new List<SpecialtyEvent>()
+                    //    {
+                    //        new SpecialtyEvent()
+                    //        {
+                    //            Specialty = softwareDesignSpecialtySecondYear
+                    //        }
+                    //    },
+                    //    StartTime = DateTime.UtcNow.AddDays(-3),
+                    //    EndTime = DateTime.UtcNow.AddDays(-3).AddMinutes(120),
+                    //},
+                    //new Event()
+                    //{
+                    //    Room = this.dbContext.Rooms.FirstOrDefault(r => r.Number == "1005"),
+                    //    Discipline = operatingSystemDiscipline,
+                    //    Teacher = this.dbContext.Teachers.FirstOrDefault(n => n.FirstName == "Luybena"),
+                    //    EventSpecialties = new List<SpecialtyEvent>()
+                    //    {
+                    //        new SpecialtyEvent()
+                    //        {
+                    //            Specialty = softwareDesignSpecialtySecondYear
+                    //        },
+                    //        new SpecialtyEvent()
+                    //        {
+                    //            Specialty = kaspSpecialtySecondYear
+                    //        }
+                    //    },
+                    //    StartTime = DateTime.UtcNow.AddDays(5),
+                    //    EndTime = DateTime.UtcNow.AddDays(5).AddMinutes(240),
+                    //},
                 };
 
                 this.dbContext.Events.AddRange(events);
@@ -391,6 +396,41 @@
             }
 
             return this;
+        }
+
+        public async Task<ISeedService> SeedUsersAndRoles()
+        {
+            var roles = new[] { "Admin", "User" };
+
+            foreach (var role in roles)
+            {
+                if (!await this.roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole { Name = role });
+                }
+            }
+
+            // Add admin user
+            var adminPassword = "123456";
+            var adminUser = new User
+            {
+                UserName = "admin",
+                Email = "admin@utp.bg"
+            };
+
+            var adminUserExists = await this.userManager.FindByNameAsync(adminUser.UserName) != null;
+            
+            if (!adminUserExists)
+            {
+                var createAdminUserResult = await this.userManager.CreateAsync(adminUser, adminPassword);
+
+                if (createAdminUserResult.Succeeded)
+                {
+                    await this.userManager.AddToRolesAsync(adminUser, roles);
+                }
+            }
+
+            return await Task.FromResult<ISeedService>(this);
         }
     }
 }

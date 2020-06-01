@@ -1,15 +1,15 @@
 ﻿namespace RMS.Services
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using API.Models.RequestModels;
     using AutoMapper;
     using Contracts;
     using Data.Entities;
-    using RMS.API.Models.ResponseModels;
     using Microsoft.Extensions.Logging;
+    using RMS.API.Models.ResponseModels;
     using RMS.Repositories.Contracts;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     /// <inheritdoc/>
     public class TeacherService : ITeacherService
@@ -18,6 +18,8 @@
         /// Teacher repository private field.
         /// </summary>
         private readonly ITeacherRepository teacherRepository;
+
+        private readonly ITeacherEventService teacherEventService;
 
         /// <summary>
         /// Auto mapper private field.
@@ -33,11 +35,13 @@
         /// Initializes a new instance of the <see cref="TeacherService"/> class.
         /// </summary>
         /// <param name="teacherRepository">Teacher teacherRepository parameter.</param>
+        /// <param name="teacherEventService">Teacher-event service parameter.</param>
         /// <param name="mapper">Automapper parameter.</param>
         /// <param name="logger">Logger service parameter.</param>
-        public TeacherService(ITeacherRepository teacherRepository, IMapper mapper, ILogger<TeacherService> logger)
+        public TeacherService(ITeacherRepository teacherRepository, ITeacherEventService teacherEventService, IMapper mapper, ILogger<TeacherService> logger)
         {
             this.teacherRepository = teacherRepository;
+            this.teacherEventService = teacherEventService;
             this.mapper = mapper;
             this.logger = logger;
         }
@@ -99,9 +103,10 @@
 
             if (dbTeacher == null)
             {
-                throw new InvalidOperationException("Invalid teacher to update!");
+                throw new InvalidOperationException("Invalid teacher to delete!");
             }
 
+            await this.teacherEventService.DeleteTeachersEventsByTeacherIdAsync(id);
             await this.teacherRepository.Delete(id);
 
             await this.teacherRepository.SaveAsync();

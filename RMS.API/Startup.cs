@@ -1,21 +1,22 @@
 namespace RMS.API
 {
+    using System;
+    using System.Collections.Generic;
     using Autofac;
     using Infrastructure.Extensions;
     using Infrastructure.Middleware;
     using IOC;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ApiExplorer;
-    using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
+    using RMS.API.Models.Helpers;
+    using RMS.Services;
+    using RMS.Services.Contracts;
     using Serilog;
-    using System;
-    using System.Collections.Generic;
 
     /// <summary>
     /// .NET core startup class
@@ -51,37 +52,21 @@ namespace RMS.API
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-
             services.RegisterMvc();
-
             services.RegisterCompression();
-
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.ConfigureApiBadModelBehavior();
+            services.ConfigureIdentity();
+            services.ConfigureJWTAuthentication(this.Configuration);
+            services.ConfigureAuthorizationClaimPolicies();
             services.RegisterSwaggerDocumentation(this.Configuration);
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<CacheService>();
 
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.InvalidModelStateResponseFactory = actionContext =>
-                {
-                    var actionExecutingContext =
-                        actionContext as ActionExecutingContext;
-
-                    if (actionContext.ModelState.ErrorCount > 0
-                        && actionExecutingContext?.ActionArguments.Count ==
-                        actionContext.ActionDescriptor.Parameters.Count)
-                    {
-                        return new UnprocessableEntityObjectResult(actionContext.ModelState);
-                    }
-
-                    return new BadRequestObjectResult(actionContext.ModelState);
-                };
-            });
+            services.AddSingleton<JwtIssuerOptions>(this.Configuration.GetSection(nameof(JwtIssuerOptions)).Get<JwtIssuerOptions>());
 
             var connectionString = this.Configuration.GetConnectionString("VUTP-RMS-SQL");
-
             var container = AutoFacConfig.Initialize(connectionString, this.HostingEnvironment, services);
-
             return container.Resolve<IServiceProvider>();
         }
 
@@ -90,7 +75,8 @@ namespace RMS.API
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                //app.UseDeveloperExceptionPage();
+                app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             }
             else
             {
@@ -140,13 +126,6 @@ namespace RMS.API
             app.UseHttpsRedirection();
             app.UseSwaggerUI(cfg =>
             {
-                //cfg.OAuthClientId(this.Configuration["Swagger:ClientId"]);
-                //cfg.OAuthClientSecret(this.Configuration["Swagger:ClientSecret"]);
-                //cfg.OAuthRealm(this.Configuration["AzureAD:ClientId"]);
-                //cfg.OAuthAppName("Interactive Map API");
-                //cfg.OAuthScopeSeparator(" ");
-                //cfg.OAuthAdditionalQueryStringParams(new { resource = this.Configuration["AzureAD:ClientId"] });
-
                 foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions)
                 {
                     cfg.SwaggerEndpoint($"/swagger/" + $"VUTP-RMS-APISpecification{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());

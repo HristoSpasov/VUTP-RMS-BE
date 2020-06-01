@@ -1,12 +1,12 @@
 ﻿namespace RMS.Repositories.Contracts
 {
+    using Data.Entities;
+    using Microsoft.EntityFrameworkCore.Query;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using Data.Entities;
-    using Microsoft.EntityFrameworkCore.Query;
 
     /// <summary>
     ///  Contract for generic repository
@@ -147,6 +147,12 @@
         /// </summary>
         /// <param name="entity">Database entity.</param>
         void Add(T entity);
+
+        /// <summary>
+        /// Adding T entity to DB async.
+        /// </summary>
+        /// <param name="entity">Database entity.</param>
+        Task  AddAsync(T entity);
 
         /// <summary>
         /// Method Responsible for deleting given entity.

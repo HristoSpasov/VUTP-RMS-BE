@@ -13,8 +13,8 @@
         /// Initializes a new instance of the <see cref="TeacherRepository"/> class.
         /// </summary>
         /// <param name="context">RMS database context.</param>
-        public TeacherRepository(RMS_Db_Context context) 
-            : base (context)
+        public TeacherRepository(RMS_Db_Context context)
+            : base(context)
         {
         }
     }

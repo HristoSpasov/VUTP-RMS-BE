@@ -1,13 +1,13 @@
 ﻿namespace RMS.API.Infrastructure.Middleware
 {
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
     using Newtonsoft.Json;
-    using System;
-    using System.Net;
-    using System.Threading.Tasks;
 
     public class ErrorHandlingMiddleware
     {

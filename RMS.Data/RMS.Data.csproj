@@ -5,6 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200527042533_Add-Mapping-Tables.cs" />
+    <Compile Remove="Migrations\20200527042533_Add-Mapping-Tables.Designer.cs" />
+    <Compile Remove="Migrations\20200527045348_Add-Mapping-Tables.cs" />
+    <Compile Remove="Migrations\20200527045348_Add-Mapping-Tables.Designer.cs" />
+    <Compile Remove="Migrations\20200527045641_Add-Mapping-Tables.cs" />
+    <Compile Remove="Migrations\20200527045641_Add-Mapping-Tables.Designer.cs" />
+    <Compile Remove="Migrations\20200527050147_Add-Mapping-Tables.cs" />
+    <Compile Remove="Migrations\20200527050147_Add-Mapping-Tables.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />

@@ -19,6 +19,7 @@
                 opt.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
                 opt.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status401Unauthorized));
                 opt.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status403Forbidden));
+                opt.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status422UnprocessableEntity));
 
                 opt.ReturnHttpNotAcceptable = true;
 

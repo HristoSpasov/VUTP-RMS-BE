@@ -1,18 +1,21 @@
 ﻿namespace RMS.IOC
 {
-    using System;
-    using System.Linq;
-    using System.Reflection;
     using Autofac;
     using Autofac.Extensions.DependencyInjection;
     using AutoMapper;
     using Data;
     using Data.Contracts;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
+    using RMS.Data.Entities;
     using Services.Mapper;
+    using System;
+    using System.Linq;
+    using System.Reflection;
 
     /// <summary>
     /// Static class used to initialize all dependencies
@@ -56,7 +59,7 @@
                 }
                 else
                 {
-                    optionsBuilder = new DbContextOptionsBuilder().UseSqlServer(connectionString);
+                    optionsBuilder = new DbContextOptionsBuilder<RMS_Db_Context>().UseSqlServer(connectionString);
                 }
 
                 var entityConfig = new EntityConfiguration();

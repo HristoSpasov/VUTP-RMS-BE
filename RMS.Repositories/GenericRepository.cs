@@ -1,15 +1,15 @@
 ﻿namespace RMS.Repositories
 {
+    using Contracts;
+    using Data;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Query;
+    using RMS.Data.Entities;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
-    using Contracts;
-    using Data;
-    using RMS.Data.Entities;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Query;
 
     /// <summary>
     /// Repository inherited from IRepository
@@ -107,7 +107,7 @@
                 entity = await this.context.Set<T>().FindAsync(id);
             }
 
-            if (!enableTracking)
+            if (entity != null && !enableTracking)
             {
                 this.Detach(entity);
             }
@@ -179,10 +179,16 @@
         }
 
         /// <inheritdoc/>
+        public async Task AddAsync(T entity)
+        {
+            await this.context.Set<T>().AddAsync(entity);
+        }
+
+        /// <inheritdoc/>
         public virtual Task Delete(T entity)
         {
-            this.context.Set<T>().Remove(entity);
-
+            //this.context.Set<T>().Remove(entity);
+            entity.IsDeleted = true;
             return Task.CompletedTask;
         }
 
