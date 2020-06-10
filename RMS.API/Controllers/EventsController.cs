@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using RMS.API.Models.RequestModels;
@@ -13,6 +14,7 @@
     /// <summary>
     /// Endpoints for register and managing events.
     /// </summary>
+    [Authorize]
     public class EventsController : BaseController
     {
         private readonly IEventService eventService;
@@ -32,6 +34,7 @@
         /// <returns>Get all events data.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ICollection<EventResponseModel>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetAll()
         {
             var events = await this.eventService.GetAllEventsAsync();
@@ -47,6 +50,7 @@
         [HttpGet]
         [Route("filter")]
         [ProducesResponseType(typeof(ICollection<EventResponseModel>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "User", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetAllFiltered([FromQuery] EventFilterRequestModel eventFilterRequestModel)
         {
             var events = await this.eventService.GetAllFilteredEventsAsync(eventFilterRequestModel);
@@ -63,6 +67,7 @@
         [Route("create")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Consumes("application/json")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> CreateEvent(BaseEventRequestModel createEventRequest)
         {
             var result = await this.eventService.CreateEventAsync(createEventRequest);
@@ -84,6 +89,7 @@
         [Route("update")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Consumes("application/json")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> UpdateEvent(BaseEventRequestModel updateEventRequestModel)
         {
             var result = await this.eventService.UpdateEventAsync(updateEventRequestModel);
@@ -104,6 +110,7 @@
         [HttpDelete]
         [Route("delete/{id}")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> DeleteEvent([GuidNotEmpty] Guid id)
         {
             await this.eventService.DeleteEventAsync(id);

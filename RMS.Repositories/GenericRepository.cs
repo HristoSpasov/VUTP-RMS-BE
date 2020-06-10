@@ -19,7 +19,7 @@
         where T : BaseEntity
     {
         /// <summary>
-        /// Interactive map context field.
+        /// RMS context field.
         /// </summary>
         private readonly RMS_Db_Context context;
 
@@ -31,14 +31,14 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericRepository{T}"/> class.
         /// </summary>
-        /// <param name="context">Interactive map context parameter.</param>
+        /// <param name="context">RMS context parameter.</param>
         protected GenericRepository(RMS_Db_Context context)
         {
             this.context = context;
         }
 
         /// <summary>
-        /// Gets Interactive map context protected property.
+        /// Gets RMS context protected property.
         /// </summary>
         protected RMS_Db_Context Context => this.context;
 

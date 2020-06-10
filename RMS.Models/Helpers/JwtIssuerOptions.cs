@@ -51,6 +51,6 @@
         /// <summary>
         /// The signing key to use when generating tokens.
         /// </summary>
-        public SigningCredentials SigningCredentials { get; set; } = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("RMS-API-SECRET", EnvironmentVariableTarget.Machine))), SecurityAlgorithms.HmacSha256);
+        public SigningCredentials SigningCredentials { get; set; } = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes("Z#n2#fdM5Z8CSbgG9H!M2$Mc94P2AyvTxGRVDNP37uMfM=arnUy$Y^LQVyRbgG**ggFBx7!zzKAaD+S5UbS?by%sh=kRBEDapFpTXYPASs*^Y#?mth%KJ6A=Y8H=&Xe!qk-_ckmw$q_ygDz*P7XA=j3GSWG5uPWqNwzbgh#Z-MQmf_+B%8gL#33gKbgfEyr27H9!HMTRbj+6%GwQfJv@gcnZphj4kRHM+45yGdV!y-Sh*u5L=V5E#7z8yBZ6Y@z9")), SecurityAlgorithms.HmacSha256);
     }
 }

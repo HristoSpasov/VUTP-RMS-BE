@@ -21,7 +21,7 @@
         /// <param name="configuration">Aoolication configuration.</param>
         public static void ConfigureJWTAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            var secretKey = Environment.GetEnvironmentVariable("RMS-API-SECRET", EnvironmentVariableTarget.Machine);
+            var secretKey = "Z#n2#fdM5Z8CSbgG9H!M2$Mc94P2AyvTxGRVDNP37uMfM=arnUy$Y^LQVyRbgG**ggFBx7!zzKAaD+S5UbS?by%sh=kRBEDapFpTXYPASs*^Y#?mth%KJ6A=Y8H=&Xe!qk-_ckmw$q_ygDz*P7XA=j3GSWG5uPWqNwzbgh#Z-MQmf_+B%8gL#33gKbgfEyr27H9!HMTRbj+6%GwQfJv@gcnZphj4kRHM+45yGdV!y-Sh*u5L=V5E#7z8yBZ6Y@z9";
 
             if (secretKey == null)
             {
@@ -64,7 +64,7 @@
             {
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions.Issuer;
                 configureOptions.TokenValidationParameters = tokenValidationParameters;
-                configureOptions.SaveToken = true;
+                // configureOptions.SaveToken = true;
             });
         }
     }

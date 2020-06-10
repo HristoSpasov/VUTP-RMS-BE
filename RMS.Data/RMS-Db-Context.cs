@@ -24,7 +24,7 @@
         private readonly ILogger<RMS_Db_Context> logger;
 
         public RMS_Db_Context()
-            : this(new DbContextOptionsBuilder().UseSqlServer("Server=.;Database=InteractiveMapDb;Trusted_Connection=True;ConnectRetryCount=0").Options, new EntityConfiguration(), new Logger<RMS_Db_Context>(new LoggerFactory()))
+            : this(new DbContextOptionsBuilder().UseSqlServer("Server=.;Database=VUTP-RMS-SQL;Trusted_Connection=True;ConnectRetryCount=0").Options, new EntityConfiguration(), new Logger<RMS_Db_Context>(new LoggerFactory()))
         {
             // This connection string is used only when calling update-database manually. Otherwise the database initialization strategy is UpdateDatabaseToLatestVersion
             // and custom implementation is being called into IoC container when the DbContext is being registered.

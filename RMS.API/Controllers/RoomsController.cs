@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -14,6 +15,7 @@
     /// <summary>
     /// Endpoints for consuming and managing room entities.
     /// </summary>
+    [Authorize]
     public class RoomsController : BaseController
     {
         private readonly ILogger<RoomsController> logger;
@@ -36,6 +38,7 @@
         /// <returns>Get all rooms data.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ICollection<RoomResponseModel>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "User", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetAllRooms()
         {
             var rooms = await this.roomService.GetAllRoomsAsync();
@@ -51,6 +54,7 @@
         [HttpGet]
         [ProducesResponseType(typeof(RoomResponseModel), StatusCodes.Status200OK)]
         [Route("{id}")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetRoomById([FromRoute][GuidNotEmpty] Guid id)
         {
             var room = await this.roomService.GetRoomByIdAsync(id);
@@ -66,6 +70,7 @@
         [HttpPost]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Route("validateRoomNumber/{number}")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> ValidateRoomNumber(string number)
         {
             if (string.IsNullOrWhiteSpace(number))
@@ -97,6 +102,7 @@
         [Route("create")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Consumes("application/json")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> CreateRoom(CreateRoomRequestModel createRoomRequestModel)
         {
             await this.roomService.CreateRoomAsync(createRoomRequestModel);
@@ -113,6 +119,7 @@
         [Route("update")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Consumes("application/json")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> UpdateRoom(UpdateRoomRequestModel updateRoomRequestModel)
         {
             await this.roomService.UpdateRoomAsync(updateRoomRequestModel);
@@ -128,6 +135,7 @@
         [HttpDelete]
         [Route("delete/{id}")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> DeleteTeacher([GuidNotEmpty] Guid id)
         {
             await this.roomService.DeleteRoomAsync(id);

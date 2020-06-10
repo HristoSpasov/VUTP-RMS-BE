@@ -1,4 +1,8 @@
-﻿namespace RMS.API.Controllers
+﻿// <copyright file="AccountsController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+namespace RMS.API.Controllers
 {
     using System;
     using System.Net.Mail;

@@ -1,11 +1,11 @@
 ﻿namespace RMS.API.Infrastructure.Extensions
 {
+    using System.Linq;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Formatters;
     using Microsoft.Extensions.DependencyInjection;
     using RMS.API.Infrastructure.Filters;
-    using System.Linq;
 
     public static class RegisterMvcExtensions
     {

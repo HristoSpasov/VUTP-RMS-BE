@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -14,6 +15,7 @@
     /// <summary>
     /// Endpoints for consuming and managing Discipline entities.
     /// </summary>
+    [Authorize]
     public class DisciplinesController : BaseController
     {
         /// <summary>
@@ -43,6 +45,7 @@
         /// <returns>Get all Disciplines data.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ICollection<DisciplineResponseModel>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "User", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetAllDisciplines()
         {
             var disciplines = await this.disciplineService.GetAllDisciplinesAsync();
@@ -58,6 +61,7 @@
         [HttpGet]
         [ProducesResponseType(typeof(DisciplineResponseModel), StatusCodes.Status200OK)]
         [Route("{id}")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetDisciplineById([FromRoute][GuidNotEmpty] Guid id)
         {
             var discipline = await this.disciplineService.GetDisciplineByIdAsync(id);
@@ -74,6 +78,7 @@
         [Route("create")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Consumes("application/json")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> CreateDiscipline(CreateDisciplineRequestModel createDisciplineRequestModel)
         {
             await this.disciplineService.CreateDisciplineAsync(createDisciplineRequestModel);
@@ -89,6 +94,7 @@
         [HttpPost]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Route("validatedisciplinename/{name}")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> ValidateDisciplineNumber(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -120,6 +126,7 @@
         [Route("update")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Consumes("application/json")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateDiscipline(UpdateDisciplineRequestModel updateDisciplineRequestModel)
         {
             await this.disciplineService.UpdateDisciplineAsync(updateDisciplineRequestModel);
@@ -134,7 +141,9 @@
         /// <returns>Delete Discipline data result.</returns>
         [HttpDelete]
         [Route("delete/{id}")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> DeleteDiscipline([GuidNotEmpty] Guid id)
         {
             await this.disciplineService.DeleteDisciplineAsync(id);

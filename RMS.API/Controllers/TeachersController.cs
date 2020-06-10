@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -14,6 +15,7 @@
     /// <summary>
     /// Endpoints for consuming and managing teacher entities.
     /// </summary>
+    [Authorize]
     public class TeachersController : BaseController
     {
         /// <summary>
@@ -43,6 +45,7 @@
         /// <returns>Get all teachers data.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ICollection<TeacherResponseModel>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "User", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetAllTeachers()
         {
             var teachers = await this.teacherService.GetAllTeachersAsync();
@@ -58,6 +61,7 @@
         [HttpGet]
         [ProducesResponseType(typeof(TeacherResponseModel), StatusCodes.Status200OK)]
         [Route("{id}")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetTeacherById([FromRoute][GuidNotEmpty] Guid id)
         {
             var teacher = await this.teacherService.GetTeacherByIdAsync(id);
@@ -74,6 +78,7 @@
         [Route("create")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Consumes("application/json")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> CreateTeacher(CreateTeacherRequestModel createTeacherRequestModel)
         {
             await this.teacherService.CreateTeacherAsync(createTeacherRequestModel);
@@ -90,6 +95,7 @@
         [Route("update")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Consumes("application/json")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> UpdateTeacher(UpdateTeacherRequestModel updateTeacherRequestModel)
         {
             await this.teacherService.UpdateTeacherAsync(updateTeacherRequestModel);
@@ -105,6 +111,7 @@
         [HttpDelete]
         [Route("delete/{id}")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> DeleteTeacher([GuidNotEmpty] Guid id)
         {
             await this.teacherService.DeleteTeacherAsync(id);

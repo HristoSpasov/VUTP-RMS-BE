@@ -60,6 +60,7 @@ namespace RMS.API
             services.ConfigureJWTAuthentication(this.Configuration);
             services.ConfigureAuthorizationClaimPolicies();
             services.RegisterSwaggerDocumentation(this.Configuration);
+            services.AddApplicationInsightsTelemetry(this.Configuration);
 
             services.AddSingleton<CacheService>();
 
@@ -75,20 +76,21 @@ namespace RMS.API
         {
             if (env.IsDevelopment())
             {
-                //app.UseDeveloperExceptionPage();
-                app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+                app.UseDeveloperExceptionPage();
             }
             else
             {
                 app.UseMiddleware(typeof(ErrorHandlingMiddleware));
-                app.UseHsts();
+                app.UseHsts(p => p.MaxAge(3650).Preload().IncludeSubdomains());
             }
 
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add(
                     "Content-Security-Policy",
-                    $"default-src 'self'; img-src 'self' data: blob:; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' {this.Configuration["Headers:CSP-API"]}; frame-src 'self'");
+                    $"default-src 'self'; img-src 'self' data: blob:; object-src 'none'; script-src 'self' " +
+                    $"'unsafe-inline' 'unsafe-eval'; connect-src 'self' {this.Configuration["Headers:CSP-API"]};" +
+                    $" frame-src 'self'");
 
                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
 

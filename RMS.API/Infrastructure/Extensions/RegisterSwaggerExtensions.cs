@@ -1,5 +1,6 @@
 ﻿namespace RMS.API.Infrastructure.Extensions
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -9,6 +10,7 @@
     using Microsoft.AspNetCore.Mvc.Versioning;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using RMS.API.Infrastructure.Filters;
     using Swashbuckle.AspNetCore.Swagger;
 
     public static class RegisterSwaggerExtensions
@@ -66,6 +68,10 @@
                     return actionApiVersionModel.ImplementedApiVersions.Any(v =>
                         $"VUTP-RMS-APISpecificationv{v.ToString()}" == documentName);
                 });
+
+                swg.AddSecurityDefinition("Bearer", new ApiKeyScheme { In = "header", Description = "Please enter into field the word 'Bearer' following by space and JWT", Name = "Authorization", Type = "apiKey" });
+        
+                swg.OperationFilter<AuthResponsesOperationFilter>();
             });
         }
     }

@@ -55,7 +55,7 @@
             else if (exception is UnauthorizedAccessException || exception is SecurityTokenException)
             {
                 code = HttpStatusCode.Unauthorized;
-                errorMessage = "Invalid username or password";
+                errorMessage = "Not authorized";
             }
 
             if (this.environment.IsStaging())

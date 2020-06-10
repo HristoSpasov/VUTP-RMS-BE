@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
@@ -14,6 +15,7 @@
     /// <summary>
     /// Endpoints for consuming and managing specialty entities.
     /// </summary>
+    [Authorize]
     public class SpecialtiesController : BaseController
     {
         private readonly ILogger<SpecialtiesController> logger;
@@ -36,6 +38,7 @@
         /// <returns>Get all specialties data.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(ICollection<SpecialtyResponseModel>), StatusCodes.Status200OK)]
+        [Authorize(Policy = "User", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetAllSpecialties()
         {
             var specialties = await this.specialtyService.GetAllSpecialtiesAsync();
@@ -51,6 +54,7 @@
         [HttpGet]
         [ProducesResponseType(typeof(SpecialtyResponseModel), StatusCodes.Status200OK)]
         [Route("{id}")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> GetSpecialtyById([FromRoute][GuidNotEmpty] Guid id)
         {
             var specialty = await this.specialtyService.GetSpecialtyByIdAsync(id);
@@ -67,6 +71,7 @@
         [Route("create")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Consumes("application/json")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> CreateSpecialty(CreateSpecialtyRequestModel createSpecialtyRequestModel)
         {
             await this.specialtyService.CreateSpecialtyAsync(createSpecialtyRequestModel);
@@ -83,6 +88,7 @@
         [Route("update")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Consumes("application/json")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> UpdateSpecialty(UpdateSpecialtyRequestModel updateSpecialtyRequestModel)
         {
             await this.specialtyService.UpdateSpecialtyAsync(updateSpecialtyRequestModel);
@@ -98,6 +104,7 @@
         [HttpDelete]
         [Route("delete/{id}")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> DeleteSpecialty([GuidNotEmpty] Guid id)
         {
             await this.specialtyService.DeleteSpecialtyAsync(id);
