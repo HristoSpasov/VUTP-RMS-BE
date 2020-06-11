@@ -76,13 +76,14 @@ namespace RMS.API
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                // app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseMiddleware(typeof(ErrorHandlingMiddleware));
                 app.UseHsts(p => p.MaxAge(3650).Preload().IncludeSubdomains());
             }
+
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
 
             app.Use(async (context, next) =>
             {
