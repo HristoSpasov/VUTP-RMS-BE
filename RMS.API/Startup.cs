@@ -9,6 +9,7 @@ namespace RMS.API
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc.ApiExplorer;
+    using Microsoft.EntityFrameworkCore.Internal;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -123,7 +124,11 @@ namespace RMS.API
 
             var documentationAuthorizedIps = this.Configuration.GetSection("DocumentationWhiteList").Get<List<string>>();
 
-            app.UseMiddleware<SwaggerAuthorizationMiddleware>(documentationAuthorizedIps);
+            if (documentationAuthorizedIps.Count > 1)
+            {
+                app.UseMiddleware<SwaggerAuthorizationMiddleware>(documentationAuthorizedIps);
+            }
+
             app.UseSwagger();
 
             app.UseHttpsRedirection();

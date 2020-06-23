@@ -126,7 +126,7 @@
         [Route("update")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Consumes("application/json")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> UpdateDiscipline(UpdateDisciplineRequestModel updateDisciplineRequestModel)
         {
             await this.disciplineService.UpdateDisciplineAsync(updateDisciplineRequestModel);
@@ -141,7 +141,6 @@
         /// <returns>Delete Discipline data result.</returns>
         [HttpDelete]
         [Route("delete/{id}")]
-        [Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(StatusCodes), StatusCodes.Status200OK)]
         [Authorize(Policy = "Admin", AuthenticationSchemes = "Bearer")]
         public async Task<IActionResult> DeleteDiscipline([GuidNotEmpty] Guid id)
